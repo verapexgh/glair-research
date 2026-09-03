@@ -355,17 +355,26 @@
       <a class="nav-item" onclick="scrollToId('sdks')">SDKs & RE</a>
       <a class="nav-item" onclick="scrollToId('deadends')">Dead Ends</a>
     </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Pass 2: Supply Chain</div>
+      <a class="nav-item" onclick="scrollToId('silicon')">Silicon Menu</a>
+      <a class="nav-item" onclick="scrollToId('display-shop')">Display Shopping</a>
+      <a class="nav-item" onclick="scrollToId('odm')">ODM Layer</a>
+      <a class="nav-item" onclick="scrollToId('korea-japan')">Korea & Japan</a>
+      <a class="nav-item" onclick="scrollToId('new-finds')">New Finds</a>
+    </div>
   </nav>
 
   <main class="main" id="main-scroll">
     <div class="hero" id="overview">
       <h2>GLAIR Research Dashboard</h2>
       <p>Smart-glasses platform research covering existing hardware, SDKs, OEMs, and open/almost-open projects. Everything below is a set of leads — verify against primary sources.</p>
-      <div class="stats-bar">
-        <div class="stat"><div class="stat-value">15</div><div class="stat-label">Projects Profiled</div></div>
-        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Priority Contacts</div></div>
+        <div class="stats-bar">
+        <div class="stat"><div class="stat-value">22</div><div class="stat-label">Projects Profiled</div></div>
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">Priority Contacts</div></div>
         <div class="stat"><div class="stat-value">3</div><div class="stat-label">Market Tiers</div></div>
-        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Open Questions</div></div>
+        <div class="stat"><div class="stat-value">15</div><div class="stat-label">Open Questions</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Research Passes</div></div>
       </div>
     </div>
 
@@ -388,11 +397,11 @@
       <div class="toc-item" onclick="scrollToId('osaig')"><strong>#1 OSAIG</strong><span>Deepest developer access · Apache-2.0 · 254★</span></div>
       <div class="toc-item" onclick="scrollToId('vuzix')"><strong>#2 Vuzix</strong><span>US OEM · M400C = cleanest I/O device</span></div>
       <div class="toc-item" onclick="scrollToId('mentra')"><strong>#3 Mentra</strong><span>Apache-2.0 OS · YC W25 · cross-vendor</span></div>
-      <div class="toc-item" onclick="scrollToId('brilliant')"><strong>#4 Brilliant Labs</strong><span>Most open commercial vendor · full firmware</span></div>
-      <div class="toc-item" onclick="scrollToId('rokid')"><strong>#5 Rokid</strong><span>Unusually ungated · BYOA first-class</span></div>
-      <div class="toc-item" onclick="scrollToId('qualcomm')"><strong>#6 Snapdragon START</strong><span>Turnkey AR1+ reference via Thundercomm</span></div>
-      <div class="toc-item" onclick="scrollToId('eth')"><strong>ETH OpenGlass</strong><span>Real open hardware · GAP9 · 11.5h ML</span></div>
-      <div class="toc-item" onclick="scrollToId('displays')"><strong>Displays & Optics</strong><span>MICROOLED, JBD, Vuzix waveguides</span></div>
+      <div class="toc-item" onclick="scrollToId('silicon')"><strong>Silicon Menu</strong><span>The 6× cost lever · AR1 ~$60 · W517 ~$10</span></div>
+      <div class="toc-item" onclick="scrollToId('display-shop')"><strong>Display Shopping</strong><span>Pre-aligned modules · Samples today · MOQ 2</span></div>
+      <div class="toc-item" onclick="scrollToId('odm')"><strong>ODM Layer</strong><span>6–8 PRD ODMs hunting brand partners</span></div>
+      <div class="toc-item" onclick="scrollToId('new-finds')"><strong>New Finds</strong><span>PUSHI G1 · LILYGO T-Glass · Verify</span></div>
+      <div class="toc-item" onclick="scrollToId('priorities')"><strong>Priority Contacts</strong><span>8 conversations worth having</span></div>
     </div>
 
     <div class="section-title">Assignment 1 — Ranked Shortlist</div>
@@ -719,6 +728,118 @@
       </div>
     </div>
 
+    <div class="section-title">Pass 2: Supply Chain Deep-Dive</div>
+
+    <!-- Silicon Menu -->
+    <div class="project-card" id="silicon">
+      <h3>Silicon Menu — The 6× Cost Lever</h3>
+      <div class="subhead">Mainboard + chip ≈ 45% of BOM</div>
+      <div class="badges">
+        <span class="badge badge-rank2">Architecture-defining</span>
+        <span class="badge badge-ble">Prices unverified</span>
+      </div>
+      <div class="project-body">
+        <p><strong>Three industry architectures the Chinese industry uses:</strong></p>
+        <ol>
+          <li><strong>Single SoC</strong> — AR1 (~$60?), W517 (~$10?). Most capable, most power and cost.</li>
+          <li><strong>MCU-SoC + external ISP</strong> — e.g. BES2800 + dedicated ISP. Near-AR1 image quality, BOM under ¥1000.</li>
+          <li><strong>SoC + MCU</strong> — AR1 for heavy work, BES2700/2800 for always-on low-power. <em>Industry consensus: likely long-term winner.</em></li>
+        </ol>
+        <p><strong>Key SoCs:</strong></p>
+        <ul>
+          <li><strong>Unisoc W517</strong> — ~$10? 12nm, A75+A55, dual ISP, Android 11, 3D SiP. INMO Air2 uses it. INMO launched "AI glasses open platform" (影目 X series) targeting sub-¥1000.</li>
+          <li><strong>Rockchip RV1106B</strong> — 0.5 TOPS INT8, 250mW@2MP video, 2mW standby. Under OSAIG.</li>
+          <li><strong>Snapdragon AR1 Gen 1/+</strong> — ~$60? Full Android. Ray-Ban, Rokid, Vuzix, Samsung.</li>
+          <li><strong>BES2800/2900/6000</strong> — Bestechnic MCU. In Even G1, MYVU, Xiaomi, Alibaba Quark. 2900 adds ISP; 6000 samples H1 2026.</li>
+          <li><strong>SigmaStar SSC309QL</strong> — ISP companion for AI glasses. In Looktech.</li>
+          <li><strong>Actions ATS3085</strong> — MCU+DSP. Drives display + health + BT. In Halliday.</li>
+          <li><strong>STM32N6</strong> — 0.6 TOPS. In Tecno AI glasses.</li>
+          <li><strong>GAP9</strong> — ETH OpenGlass. 11.5h ML from 200mAh.</li>
+          <li><strong>ESP32-S3</strong> — $25 tier. omiGlass, LILYGO T-Glass, OSSG.</li>
+        </ul>
+      </div>
+      <div class="action-box">
+        <strong>Key insight:</strong> Silicon choice is the single most expensive decision. W517 at ~$10 vs. AR1 at ~$60 is a 6× lever. BOM breakdown: mainboard+chip 45%, ROM+RAM 10%, sensors 9.47%, assembly 8.62%, power 5%, acoustics 3.16%.
+      </div>
+    </div>
+
+    <!-- Display Shopping -->
+    <div class="project-card" id="display-shop">
+      <h3>Display & Optics — Shopping List</h3>
+      <div class="subhead">Pass 2 finding: The display is not the hard part anymore. It's a part number.</div>
+      <div class="badges">
+        <span class="badge badge-rank2">Buyable today</span>
+        <span class="badge badge-open">Samples available</span>
+      </div>
+      <div class="project-body">
+        <p><strong>Pre-integrated modules (least engineering):</strong></p>
+        <ul>
+          <li><strong>Raontech LCoS module + controller</strong> — FHD, 40°/50° FOV, <em>pre-aligned so no optical alignment required</em>. New P13: sub-1 cm³, single-panel 800×800, fits in a temple. In discussions with Meta? Contact: sales.raon@RAON.io</li>
+          <li><strong>DisplayModule DMGTX0068WUNA</strong> — Sony ECX343ENA 0.68", 1920×1200, 50° FOV, 0–700 nits, >80% transmittance. <strong>Samples immediate, bulk 3 weeks.</strong></li>
+          <li><strong>MICROOLED ActiveLook</strong> — Full HUD subsystem, open BLE, Apache-2.0 SDKs. Shipping in ENGO/Julbo/Cosmo.</li>
+          <li><strong>Lingxi Aladdin Zero</strong> — 灵犀微光 reference machine for AR-glasses solution houses. 2D-40: 8g, 40° FOV. 2D-60: 60° FOV.</li>
+        </ul>
+        <p><strong>Panels & engines:</strong></p>
+        <ul>
+          <li><strong>Micro-OLED panels</strong> — <strong>$75–$125/module, MOQ 2 pieces.</strong> Sony (~65%), SeeYa, BOE, Kopin, eMagin, OLiGHTEK, MICROOLED.</li>
+          <li><strong>JBD microLED</strong> — 0.35cc/0.6g/30° mono, 1.3cc/2.3g poly. Dev kits. Roadrunner II H2 2026.</li>
+          <li><strong>LCoS</strong> — Only Omnivision + Raontech supply for AR glasses. Meta Ray-Ban uses Lumus/Schott geometric reflective waveguide.</li>
+        </ul>
+        <p><strong>Chinese waveguides:</strong> Lochn Optics (16,400 m²), Zhige, Crystal Optech, Sunny Optical, Lianchuang (Magic Leap), Optiark, Lipai (LCoS 1280×720).</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> This kills the main argument for the tethered architecture. With pre-aligned optical modules buyable in sample quantities today, the on-glasses architecture is reopened as a genuine option.
+      </div>
+    </div>
+
+    <!-- New Finds -->
+    <div class="project-card" id="new-finds">
+      <h3>New Project Finds</h3>
+      <div class="project-body">
+        <p><strong>PUSHI G1</strong> — AI+AR glasses on RV1106B, open SDK, Qwen/Doubao APIs. Claimed Tencent/Alibaba Cloud deployment across 18 scenarios. ⚠️ <strong>UNVERIFIED</strong> — single SEO reprint source. Could be real OSAIG-like project, solution-house repackaging, or pure vendor marketing. Verify before spending time.</p>
+        <p><strong>LILYGO T-Glass</strong> — ESP32-S3 dev platform, 1.1" AMOLED (126×126 visible), Bosch BHI260AP 6-axis IMU with ML coprocessor. <strong>Sub-$50.</strong> Fastest way to have something on your face displaying your own text this month. Buy immediately for rapid prototyping. Pair with XIAO ESP32S3 Sense for camera.</p>
+      </div>
+    </div>
+
+    <!-- ODM Layer -->
+    <div class="project-card" id="odm">
+      <h3>The ODM Layer — 6–8 PRD ODMs Hunting Brand Partners</h3>
+      <div class="badges">
+        <span class="badge badge-rank2">Smaller, hungrier, cheaper</span>
+        <span class="badge badge-ble">Willing to co-develop</span>
+      </div>
+      <div class="project-body">
+        <p><strong>The gap:</strong> Market has a hole between ¥100 white-label tier and ¥1500+ tier. Target fill: <strong>~¥999.</strong></p>
+        <p><strong>Key ODMs:</strong></p>
+        <ul>
+          <li><strong>SmartXY / 深圳信瑜</strong> — 9 platforms, K900, 5,000 m², 8 lines, 400k/yr. OEM 1–3mo, ODM 6–9mo. vanda@topaiglasses.com</li>
+          <li><strong>Antawei / 安塔威</strong> — <em>Own</em> wearable OLED display-module plant (Dongguan), assembly plant (Huizhou), injection-moulding stake. Shipping ¥399–¥599. Planning 13MP ~¥999 on Anyka. Contact: <strong>鄢鹏飞 (Yan Pengfei)</strong>. Would actually take a small first order.</li>
+          <li><strong>Tier-1 reference:</strong> Goertek (Meta), Luxshare (Alibaba Quark), Quanta (Vuzix Ultralite), Thundercomm (Qualcomm START)</li>
+        </ul>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> A US brand with a defined application walking in with a spec is exactly what these ODMs are looking for. Much cheaper than Vuzix or Thundercomm.
+      </div>
+    </div>
+
+    <!-- Korea & Japan -->
+    <div class="project-card" id="korea-japan">
+      <h3>Korea & Japan</h3>
+      <div class="project-body">
+        <p><strong>Korea:</strong></p>
+        <ul>
+          <li><strong>Raontech</strong> — Most useful Korean contact. All three microdisplay techs (LCoS, micro-OLED, microLED). Pre-aligned modules. New P13 sub-1cm³ engine. sales.raon@RAON.io</li>
+          <li><strong>Sapien Semiconductor</strong> — Meta microLED backplane (H2 2027). Roadmap only.</li>
+          <li><strong>Samsung/LG</strong> — OLED microdisplay ramping (Samsung owns eMagin since 2023).</li>
+        </ul>
+        <p><strong>Japan:</strong></p>
+        <ul>
+          <li><strong>Sony</strong> — ~65% micro-OLED market. ECX series is default. Buyable through distributors.</li>
+          <li><strong>Gap:</strong> No Japanese ODM/platform leads found. Not ruled out — remaining gap.</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="section-title">Priority Conversations</div>
     <div id="priorities">
       <ol class="priority-list">
@@ -726,7 +847,10 @@
         <li><strong>Vuzix OEM / Engineering Services (Rochester, NY)</strong><br>US-based, sells waveguides, sells reference designs, manufactures through Quanta, and already ships the one product that does glasses-as-pure-USB-C-I/O. Ask about Ultralite OEM Platform pricing, MOQ and NRE; whether the M400C USB-C viewer architecture can be licensed or re-bodied; whether the waveguide + light engine can be bought separately at low volume.</li>
         <li><strong>Thundercomm (sales@thundercomm.com, Ali Mesri NA)</strong><br>The Snapdragon START turnkey path. Highest ceiling, most conventional, most expensive. Ask what the AR1+ AI glasses reference solution actually includes, and the real numbers on NRE, MOQ and timeline.</li>
         <li><strong>ETH Zürich PBL — Julian Moosmann (system architecture) and Michele Magno (group lead)</strong><br>These are the people who can talk at the firmware → chip → PCB → camera → display → USB → sensor level. They publish board files, they've built glasses more than once, and a university lab is a far cheaper first technical conversation than a consultancy. Ask about licence terms on the OpenGlass hardware designs, whether the FPC-interposer main board could carry a display, and whether they take industry collaborations.</li>
-        <li><strong>OSAIG maintainer (iam5tilllearning@foxmail.com) — and SmartXY (vanda@topaiglasses.com)</strong><br>Two different bets on the Shenzhen supply chain. OSAIG is the cheapest way to have real hardware in hand with root access inside a month. SmartXY is a working ODM with its own factory (Dongguan, 5,000 m², 8 lines, 400k units/yr, OEM 1–3 months / ODM 6–9 months) whose K900 platform may be the hardware under Mentra Live.</li>
+        <li><strong>Shenzhen Supply Chain — SmartXY (vanda@topaiglasses.com)</strong><br>Working ODM with its own factory (Dongguan, 5,000 m², 8 lines, 400k units/yr). K900 platform may be under Mentra Live. OEM 1–3 months, ODM 6–9 months.</li>
+        <li><strong>Shenzhen Supply Chain — Antawei (鄢鹏飞 / Yan Pengfei)</strong><br>Mid-size ODM with unusually deep vertical integration: own display-module plant, assembly plant, moulding stake. Shipping ¥399–¥599. Planning 13MP ~¥999. Would actually take a small first order. The partner profile for a US brand.</li>
+        <li><strong>Raontech — sales.raon@RAON.io</strong><br>Pre-aligned LCoS optical module, no alignment required. New P13: sub-1cm³ single-panel full-colour engine. The most commercially useful Korean contact. Ask: part number, price, prototype MOQ, lead time.</li>
+        <li><strong>Lingxi AR / 灵犀微光</strong><br>Aladdin Zero reference machine and Aladdin Developer Reference Solution. Ask: what the reference includes, who qualifies, optics-side dev path.</li>
       </ol>
     </div>
 
@@ -759,7 +883,7 @@ function scrollToId(id) {
 
 // Highlight nav on scroll
 const main = document.getElementById('main-scroll');
-const sections = ['overview','market-structure','osaig','vuzix','mentra','brilliant','rokid','qualcomm','inmo','enterprise','meta','eth','ossg','displays','compute','sdks','priorities','deadends'];
+const sections = ['overview','market-structure','osaig','vuzix','mentra','brilliant','rokid','qualcomm','inmo','enterprise','meta','eth','ossg','displays','compute','sdks','silicon','display-shop','new-finds','odm','korea-japan','priorities','deadends'];
 main.addEventListener('scroll', () => {
   let current = '';
   for (const id of sections) {
