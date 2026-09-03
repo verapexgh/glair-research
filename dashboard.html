@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLAIR — Smart Glasses Research Dashboard</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface-2: #21262d;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --accent: #58a6ff;
+    --accent-2: #3fb950;
+    --warning: #d29922;
+    --danger: #f85149;
+    --purple: #a371f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    height: 100%;
+    overflow: hidden;
+  }
+  .app {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    height: 100vh;
+  }
+  .sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header h1 {
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .sidebar-header p {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .nav-group {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-group-title {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding: 0 20px 8px;
+  }
+  .nav-item {
+    display: block;
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .nav-item:hover {
+    background: var(--surface-2);
+  }
+  .nav-item.active {
+    background: var(--surface-2);
+    border-left-color: var(--accent);
+    color: #fff;
+  }
+  .nav-item .tag {
+    float: right;
+    font-size: 0.65rem;
+    padding: 1px 6px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .main {
+    overflow-y: auto;
+    padding: 32px 40px;
+    scroll-behavior: smooth;
+  }
+  .main::-webkit-scrollbar { width: 10px; }
+  .main::-webkit-scrollbar-track { background: var(--bg); }
+  .main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 5px; }
+  .main::-webkit-scrollbar-thumb:hover { background: #484f58; }
+
+  .hero {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+  .hero p {
+    color: var(--text-dim);
+    max-width: 700px;
+  }
+  .stats-bar {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 18px;
+    min-width: 120px;
+  }
+  .stat-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .tier-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 32px;
+    font-size: 0.9rem;
+  }
+  .tier-table th, .tier-table td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tier-table th {
+    background: var(--surface);
+    color: var(--text-dim);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+  .tier-table tr:hover td {
+    background: var(--surface);
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    scroll-margin-top: 24px;
+  }
+  .project-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .project-card .subhead {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+  }
+  .badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .badge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .badge-rank1 { background: rgba(88,166,255,0.15); color: var(--accent); }
+  .badge-rank2 { background: rgba(63,185,80,0.15); color: var(--accent-2); }
+  .badge-rank3 { background: rgba(210,153,34,0.15); color: var(--warning); }
+  .badge-open { background: rgba(63,185,80,0.15); color: var(--accent-2); }
+  .badge-closed { background: rgba(248,81,73,0.15); color: var(--danger); }
+  .badge-mixed { background: rgba(163,113,247,0.15); color: var(--purple); }
+  .badge-ble { background: rgba(210,153,34,0.15); color: var(--warning); }
+
+  .project-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .meta-item {
+    background: var(--surface-2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+  .meta-item strong {
+    display: block;
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .project-body p, .project-body li {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  .project-body ul {
+    margin: 8px 0 8px 18px;
+  }
+  .project-body li {
+    margin-bottom: 4px;
+  }
+  .project-body strong {
+    color: var(--text);
+  }
+
+  .action-box {
+    background: rgba(88,166,255,0.08);
+    border: 1px solid rgba(88,166,255,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 0.9rem;
+  }
+  .action-box strong {
+    color: var(--accent);
+  }
+
+  .priority-list {
+    counter-reset: prio;
+    list-style: none;
+  }
+  .priority-list li {
+    counter-increment: prio;
+    position: relative;
+    padding-left: 36px;
+    margin-bottom: 16px;
+  }
+  .priority-list li::before {
+    content: counter(prio);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .toc-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+  .toc-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .toc-item strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .toc-item span {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h1>GLAIR</h1>
+      <p>Smart-Glasses Research Dashboard<br>Pass 1 · 2026-09-03</p>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Overview</div>
+      <a class="nav-item active" onclick="scrollToId('overview')">Summary & Stats</a>
+      <a class="nav-item" onclick="scrollToId('market-structure')">Market Structure</a>
+      <a class="nav-item" onclick="scrollToId('priorities')">Priority Conversations</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Ranked Shortlist</div>
+      <a class="nav-item" onclick="scrollToId('osaig')">#1 OSAIG <span class="tag">254★</span></a>
+      <a class="nav-item" onclick="scrollToId('vuzix')">#2 Vuzix</a>
+      <a class="nav-item" onclick="scrollToId('mentra')">#3 Mentra</a>
+      <a class="nav-item" onclick="scrollToId('brilliant')">#4 Brilliant Labs</a>
+      <a class="nav-item" onclick="scrollToId('rokid')">#5 Rokid</a>
+      <a class="nav-item" onclick="scrollToId('qualcomm')">#6 Qualcomm START</a>
+      <a class="nav-item" onclick="scrollToId('inmo')">#7 INMO Air3</a>
+      <a class="nav-item" onclick="scrollToId('enterprise')">#8 Enterprise</a>
+      <a class="nav-item" onclick="scrollToId('meta')">#9 Meta/XR/Snap</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-title">Foundations & Components</div>
+      <a class="nav-item" onclick="scrollToId('eth')">ETH OpenGlass</a>
+      <a class="nav-item" onclick="scrollToId('ossg')">OSSG / Team Open</a>
+      <a class="nav-item" onclick="scrollToId('displays')">Displays & Optics</a>
+      <a class="nav-item" onclick="scrollToId('compute')">Compute</a>
+      <a class="nav-item" onclick="scrollToId('sdks')">SDKs & RE</a>
+      <a class="nav-item" onclick="scrollToId('deadends')">Dead Ends</a>
+    </div>
+  </nav>
+
+  <main class="main" id="main-scroll">
+    <div class="hero" id="overview">
+      <h2>GLAIR Research Dashboard</h2>
+      <p>Smart-glasses platform research covering existing hardware, SDKs, OEMs, and open/almost-open projects. Everything below is a set of leads — verify against primary sources.</p>
+      <div class="stats-bar">
+        <div class="stat"><div class="stat-value">15</div><div class="stat-label">Projects Profiled</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Priority Contacts</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Market Tiers</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Open Questions</div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Market Structure</div>
+    <div id="market-structure">
+      <p style="color:var(--text-dim); margin-bottom:12px;">No single product has: camera + mic + speaker + near-eye display + USB-C data + wireless + continuous A/V streaming + deep programmatic control.</p>
+      <table class="tier-table">
+        <tr><th>Tier</th><th>Link</th><th>Examples</th><th>Limitation</th></tr>
+        <tr><td><strong>BLE Display</strong></td><td>BT LE, ~KB/s</td><td>Even G1/G2, Vuzix Z100, Brilliant Halo</td><td>Cannot stream video</td></tr>
+        <tr><td><strong>Wi-Fi Camera</strong></td><td>Wi-Fi + SoC</td><td>Mentra Live, Rokid, INMO, OSAIG</td><td>Battery 30-60 min; mostly no display</td></tr>
+        <tr><td><strong>USB-C Tethered</strong></td><td>DP Alt Mode + UVC</td><td>Vuzix M400C, XREAL, RayNeo Air</td><td>A cable; almost none have camera</td></tr>
+      </table>
+      <div class="action-box">
+        <strong>Key insight:</strong> The tethered/external-compute architecture is the only one that currently gets you camera + display + high bandwidth + full control simultaneously. Over USB-C, interfaces are industry standards (UVC, UAC, DisplayPort) rather than a vendor's proprietary BLE protocol.
+      </div>
+    </div>
+
+    <div class="section-title">Quick Jump</div>
+    <div class="toc-grid">
+      <div class="toc-item" onclick="scrollToId('osaig')"><strong>#1 OSAIG</strong><span>Deepest developer access · Apache-2.0 · 254★</span></div>
+      <div class="toc-item" onclick="scrollToId('vuzix')"><strong>#2 Vuzix</strong><span>US OEM · M400C = cleanest I/O device</span></div>
+      <div class="toc-item" onclick="scrollToId('mentra')"><strong>#3 Mentra</strong><span>Apache-2.0 OS · YC W25 · cross-vendor</span></div>
+      <div class="toc-item" onclick="scrollToId('brilliant')"><strong>#4 Brilliant Labs</strong><span>Most open commercial vendor · full firmware</span></div>
+      <div class="toc-item" onclick="scrollToId('rokid')"><strong>#5 Rokid</strong><span>Unusually ungated · BYOA first-class</span></div>
+      <div class="toc-item" onclick="scrollToId('qualcomm')"><strong>#6 Snapdragon START</strong><span>Turnkey AR1+ reference via Thundercomm</span></div>
+      <div class="toc-item" onclick="scrollToId('eth')"><strong>ETH OpenGlass</strong><span>Real open hardware · GAP9 · 11.5h ML</span></div>
+      <div class="toc-item" onclick="scrollToId('displays')"><strong>Displays & Optics</strong><span>MICROOLED, JBD, Vuzix waveguides</span></div>
+    </div>
+
+    <div class="section-title">Assignment 1 — Ranked Shortlist</div>
+
+    <!-- #1 OSAIG -->
+    <div class="project-card" id="osaig">
+      <h3>#1 — OSAIG / OpenSource-Ai-Glasses</h3>
+      <div class="subhead">github.com/Iam5tillLearning/OpenSource-Ai-Glasses</div>
+      <div class="badges">
+        <span class="badge badge-rank1">Rank #1</span>
+        <span class="badge badge-open">Apache-2.0</span>
+        <span class="badge badge-open">Root Linux</span>
+        <span class="badge badge-open">254★ 53↺</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>Silicon</strong>Rockchip RV1106B (Cortex-A7)</div>
+        <div class="meta-item"><strong>Camera</strong>IMX219, 1080p</div>
+        <div class="meta-item"><strong>Display</strong>Optional 640×480 / 30° monocular</div>
+        <div class="meta-item"><strong>Connectivity</strong>Wi-Fi b/g/n, BT 5.3, USB 2.0</div>
+        <div class="meta-item"><strong>Battery</strong>180 mAh (~45 min)</div>
+        <div class="meta-item"><strong>Weight</strong>43 g</div>
+        <div class="meta-item"><strong>Updated</strong>2026-09-03 (active)</div>
+        <div class="meta-item"><strong>Purchase</strong>Taobao / forwarder</div>
+      </div>
+      <div class="project-body">
+        <p>The deepest developer access of anything you can buy. C/C++ SDK with GPIO events, <strong>zero-copy camera frames via shared memory</strong>, audio in/out, shared-memory framebuffer, BLE text channel, media arbitration, Unix-domain-socket IPC. <strong>RTSP out of the box</strong> (<code>rtsp://&lt;ip&gt;:554/live/0</code>). Root Linux. GDB + OpenOCD documented.</p>
+        <p><strong>Published:</strong> system software, SDK, docs, 3D models, build system.<br><strong>NOT published:</strong> schematics, PCB, gerbers, BOM.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Pursue immediately. Buy two kits — they are cheap, and holding one collapses a month of speculation. This is the only purchasable root-Linux glasses platform with camera, audio, display, and streaming.
+      </div>
+    </div>
+
+    <!-- #2 Vuzix -->
+    <div class="project-card" id="vuzix">
+      <h3>#2 — Vuzix (M400 / M400C / Z100 / Ultralite OEM)</h3>
+      <div class="subhead">Vuzix Corporation, Rochester NY (NASDAQ: VUZI)</div>
+      <div class="badges">
+        <span class="badge badge-rank2">Rank #2</span>
+        <span class="badge badge-mixed">Commercial OEM</span>
+        <span class="badge badge-open">ADB (M400)</span>
+        <span class="badge badge-open">UVC (M400C)</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>M400</strong>$1,800 · Android · IP67</div>
+        <div class="meta-item"><strong>M400C</strong>$1,299 · USB-C I/O only</div>
+        <div class="meta-item"><strong>Z100</strong>BLE display-only</div>
+        <div class="meta-item"><strong>OEM</strong>Ultralite / Ultralite Pro via Quanta</div>
+        <div class="meta-item"><strong>Waveguides</strong>US-made, defence-qualified</div>
+        <div class="meta-item"><strong>MOQ/NRE</strong>[UNKNOWN] — enquiry required</div>
+      </div>
+      <div class="project-body">
+        <p>The strongest OEM story of any Western vendor. <strong>M400C</strong> is the cleanest glasses-as-I/O device that exists: pure USB-C peripheral, DisplayPort Alt Mode display in, <strong>standard UVC camera out</strong>, 1080p60, powered by host. No on-glasses compute needed.</p>
+        <p>Ultralite Pro OEM = Snapdragon AR1 Gen 1 + dual Avegant LCoS + Vuzix binocular waveguides. Manufactured through Quanta Computer.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Priority conversation #2. Ask about Ultralite OEM pricing/MOQ/NRE, whether M400C can be licensed/re-bodied, and whether waveguide + light engine can be bought at low volume.
+      </div>
+    </div>
+
+    <!-- #3 Mentra -->
+    <div class="project-card" id="mentra">
+      <h3>#3 — Mentra (MentraOS + Mentra Live + Mentra Mach1)</h3>
+      <div class="subhead">Mentra Labs, San Francisco (YC W25)</div>
+      <div class="badges">
+        <span class="badge badge-rank3">Rank #3</span>
+        <span class="badge badge-open">Apache-2.0 OS</span>
+        <span class="badge badge-mixed">Camera + Display split</span>
+        <span class="badge badge-open">1,182★ (OSSG)</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>Mentra Live</strong>$299 · MTK8766 · 12MP · no display</div>
+        <div class="meta-item"><strong>Mentra Mach1</strong>$349 dev kit · HUD · no camera</div>
+        <div class="meta-item"><strong>ADB</strong>Wi-Fi only (Live)</div>
+        <div class="meta-item"><strong>Cross-vendor</strong>Z100, Even G1, etc.</div>
+        <div class="meta-item"><strong>ODM Lead</strong>SmartXY K900? (unconfirmed)</div>
+        <div class="meta-item"><strong>Contact</strong>Cayden Pierce / Alexander Israelov</div>
+      </div>
+      <div class="project-body">
+        <p>Apache-2.0 monorepo: cloud backend, React Native runtime, <strong>native Android client on glasses</strong>, TypeScript SDK, OTA tooling. One app runs on Mentra Live, Mach1, Vuzix Z100, Even G1.</p>
+        <p><strong>The gap:</strong> camera device (Live) and display device (Mach1) are separate. No single device with both. Internal "K900" designation matches SmartXY XY-008 platform — worth verifying.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Priority conversation #1. Ask whether a camera+display device is possible, what the ODM relationship allows, and whether K900 can be specified with a display.
+      </div>
+    </div>
+
+    <!-- #4 Brilliant -->
+    <div class="project-card" id="brilliant">
+      <h3>#4 — Brilliant Labs (Halo & Frame)</h3>
+      <div class="subhead">Singapore/HK · ~$399</div>
+      <div class="badges">
+        <span class="badge badge-rank3">Rank #4</span>
+        <span class="badge badge-open">Firmware public</span>
+        <span class="badge badge-open">FPGA RTL (Frame)</span>
+        <span class="badge badge-ble">BLE only</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>Halo</strong>Alif Balletto · Zephyr RTOS · Lua · 42★</div>
+        <div class="meta-item"><strong>Frame</strong>nRF52840 + Lattice FPGA · full RTL</div>
+        <div class="meta-item"><strong>Display</strong>Colour micro-OLED · +2 to -6 dioptres</div>
+        <div class="meta-item"><strong>Audio</strong>Dual bone-conduction speakers</div>
+        <div class="meta-item"><strong>Weight</strong>40 g · all-day battery</div>
+        <div class="meta-item"><strong>License</strong>BSD-3 (SDK) / varies</div>
+      </div>
+      <div class="project-body">
+        <p>The most open commercial vendor. <code>halo-firmware</code>, <code>halo-mcuboot</code>, <code>halo-zephyr-alif</code>, <code>brilliant_sdk</code> all public. Frame includes complete SystemVerilog RTL.</p>
+        <p><strong>Hard limit:</strong> BLE only. No USB-C data, no Wi-Fi, no video streaming. Ceiling is low-res images + mic stream.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Pursue as firmware/architecture reference and display-side answer, not as the whole device. The Frame codebase is the single best worked example of camera + micro-OLED + MCU + FPGA in glasses form factor.
+      </div>
+    </div>
+
+    <!-- #5 Rokid -->
+    <div class="project-card" id="rokid">
+      <h3>#5 — Rokid Glasses</h3>
+      <div class="subhead">$699 · Snapdragon AR1 Gen 1</div>
+      <div class="badges">
+        <span class="badge badge-rank3">Rank #5</span>
+        <span class="badge badge-mixed">Ungated dev access</span>
+        <span class="badge badge-closed">Closed AARs</span>
+        <span class="badge badge-open">BYOA first-class</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>SoC</strong>Snapdragon AR1 Gen 1 + NXP RT600</div>
+        <div class="meta-item"><strong>Display</strong>Dual microLED ~480×400/eye · 1500 nits</div>
+        <div class="meta-item"><strong>Camera</strong>12 MP Sony IMX681</div>
+        <div class="meta-item"><strong>OS</strong>YodaOS-Sprite (Android 12 / QSSI)</div>
+        <div class="meta-item"><strong>Sideload</strong>Phone, BT SPP, Wi-Fi, USB, WebUSB</div>
+        <div class="meta-item"><strong>Community</strong>buildwithfenna/rokid-docs (48★)</div>
+      </div>
+      <div class="project-body">
+        <p>Unusually ungated — <strong>no account needed</strong> for Maven repo. Four parallel dev paths: phone companion, on-glasses native Android, on-glasses AIUI/JSAR web runtime (Apache-2.0), cloud agent. Sideload over five different transports including WebUSB from browser.</p>
+        <p>Bring-your-own-AI is first-class: point at your own model endpoint over SSE (DeepSeek/Qwen/Kimi). Rare in this class.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Good for app development, not for hardware control. Community reverse-engineering is strong and preserves access even if vendor policies change.
+      </div>
+    </div>
+
+    <!-- #6 Qualcomm -->
+    <div class="project-card" id="qualcomm">
+      <h3>#6 — Qualcomm Snapdragon START + Thundercomm</h3>
+      <div class="subhead">AWE June 2026 · Turnkey AR1+ reference</div>
+      <div class="badges">
+        <span class="badge badge-rank3">Rank #6</span>
+        <span class="badge badge-mixed">Turnkey OEM</span>
+        <span class="badge badge-closed">NRE/MOQ unknown</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>Program</strong>Snapdragon START (Scalable Turnkey AI-Ready Toolkit)</div>
+        <div class="meta-item"><strong>Partner</strong>Thundercomm (ThunderSoft/Qualcomm JV)</div>
+        <div class="meta-item"><strong>Includes</strong>BSP, optics, sensing, certification, mass prod</div>
+        <div class="meta-item"><strong>First category</strong>AI smart glasses</div>
+        <div class="meta-item"><strong>Contact</strong>sales@thundercomm.com · Ali Mesri</div>
+      </div>
+      <div class="project-body">
+        <p>Fastest legitimate route from "we want our own glasses" to "we have our own glasses" without designing from scratch. Production-ready reference design on Snapdragon AR1+.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Priority conversation #3. Ask what the AR1+ reference solution includes, and real numbers on NRE, MOQ, and timeline. The "safe enterprise" path.
+      </div>
+    </div>
+
+    <!-- #7 INMO -->
+    <div class="project-card" id="inmo">
+      <h3>#7 — INMO Air3</h3>
+      <div class="subhead">~$899 pre-order · Standalone Android</div>
+      <div class="badges">
+        <span class="badge badge-closed">Consumer closed</span>
+        <span class="badge badge-mixed">GMS official</span>
+        <span class="badge badge-ble">Battery issues</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>SoC</strong>Snapdragon</div>
+        <div class="meta-item"><strong>RAM/Storage</strong>8 GB / 128 GB</div>
+        <div class="meta-item"><strong>Display</strong>Sony 0.44" micro-OLED 1920×1080 · 36° FOV · 120 Hz</div>
+        <div class="meta-item"><strong>Unique</strong>Official Google Mobile Services</div>
+        <div class="meta-item"><strong>SDK</strong>Unity + native · Feishu-walled docs</div>
+        <div class="meta-item"><strong>Battery</strong>Heavily criticised in reviews</div>
+      </div>
+      <div class="project-body">
+        <p>Strong hardware on paper with official Google Mobile Services and friction-free Play Store install. But the battery life is the critical weakness for continuous use, and documentation is behind a login wall.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Not recommended for development due to battery criticism and walled documentation.
+      </div>
+    </div>
+
+    <!-- #8 Enterprise -->
+    <div class="project-card" id="enterprise">
+      <h3>#8 — Enterprise Tier</h3>
+      <div class="subhead">RealWear · DigiLens ARGO · Iristick · ThirdEye</div>
+      <div class="badges">
+        <span class="badge badge-mixed">Enterprise only</span>
+        <span class="badge badge-open">Sideload + MDM</span>
+        <span class="badge badge-closed">No consumer channel</span>
+      </div>
+      <div class="project-body">
+        <p>Standard Android, sideload + MDM supported. No consumer sales channel.</p>
+        <ul>
+          <li><strong>DigiLens ARGO</strong> — DigiOS on AOSP 12. DigiLens sells waveguides standalone. Notable.</li>
+          <li><strong>Iristick</strong> — SDK behind paid NDA (~€1,137.50/yr). Not worth pursuing.</li>
+          <li><strong>RealWear / ThirdEye</strong> — Standard Android enterprise. Viable if you have the use case and budget.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- #9 Meta -->
+    <div class="project-card" id="meta">
+      <h3>#9 — Meta, Android XR, Snap</h3>
+      <div class="subhead">Best hardware, least control</div>
+      <div class="badges">
+        <span class="badge badge-closed">Partner-gated</span>
+        <span class="badge badge-mixed">Early / withdrawn</span>
+      </div>
+      <div class="project-body">
+        <p><strong>Meta DAT</strong> — Free SDK, camera + mic + speaker + display components on Ray-Ban Display. But everything routes through Meta AI app; public publishing partner-gated; Meta AI closed.</p>
+        <p><strong>Android XR</strong> — Jetpack XR SDK public (DP3). Samsung Galaxy Glasses audio-only (display 2027). XREAL Project Aura wired, 70° FOV, dev kits via Catalyst Program (strictly limited).</p>
+        <p><strong>Snap Spectacles</strong> — Developer program withdrawn. $2,195 pre-order only.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Included for completeness only. Not viable for programmatic control and independence.
+      </div>
+    </div>
+
+    <div class="section-title">Strong Foundations</div>
+
+    <!-- ETH OpenGlass -->
+    <div class="project-card" id="eth">
+      <h3>ETH Zürich — OpenGlass</h3>
+      <div class="subhead">arXiv 2606.07431 · D-ITET · Prof. Michele Magno</div>
+      <div class="badges">
+        <span class="badge badge-open">Open hardware</span>
+        <span class="badge badge-open">GAP9 RISC-V</span>
+        <span class="badge badge-rank2">11.5h ML / 200mAh</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>SoC</strong>GAP9 + nRF5340 + nPM1300</div>
+        <div class="meta-item"><strong>Cameras</strong>Prophesee GENX320 DVS + Himax HM0360 RGB</div>
+        <div class="meta-item"><strong>Interposer</strong>Flexible FPC — swap cameras without PCB redesign</div>
+        <div class="meta-item"><strong>Dev panel</strong>USB, SWD, JTAG, FT2232H</div>
+        <div class="meta-item"><strong>License</strong>[UNKNOWN] — verify before commercial use</div>
+        <div class="meta-item"><strong>Hardware contact</strong>Julian Moosmann (jmoosmann@ethz.ch)</div>
+      </div>
+      <div class="project-body">
+        <p>The real open-hardware one. All hardware designs, firmware, and models released open source. The power architecture is the achievement: <strong>11.5 hours of continuous on-device ML from 200 mAh</strong>.</p>
+        <p><strong>Missing:</strong> no display, no speaker, no Wi-Fi, no USB-C data role. It's a sensing platform.</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Priority conversation #4. Ask about license terms, whether FPC-interposer main board could carry a display, and whether they take industry collaborations.
+      </div>
+    </div>
+
+    <!-- OSSG -->
+    <div class="project-card" id="ossg">
+      <h3>OSSG / Open Source Smart Glasses (Team Open Smart Glasses)</h3>
+      <div class="subhead">MIT license · github.com/Mentra-Community/OpenSourceSmartGlasses</div>
+      <div class="badges">
+        <span class="badge badge-open">MIT</span>
+        <span class="badge badge-open">Gerbers + BOM</span>
+        <span class="badge badge-open">1,182★ 148↺</span>
+        <span class="badge badge-ble">Display unsolved</span>
+      </div>
+      <div class="project-meta">
+        <div class="meta-item"><strong>Silicon</strong>ESP32-PICO-D4 + 4 MB SPIRAM</div>
+        <div class="meta-item"><strong>OS</strong>FreeRTOS</div>
+        <div class="meta-item"><strong>Design</strong>Microcontroller-class; phone is head unit</div>
+        <div class="meta-item"><strong>Status</strong>Graduated to Mentra (April 2023)</div>
+        <div class="meta-item"><strong>People</strong>Cayden Pierce (now Mentra CEO)</div>
+      </div>
+      <div class="project-body">
+        <p>Complete package: 3D-printed frames, v1.1 gerbers, LCSC BOM, published schematics (main + power), ESP32 firmware, step-by-step build wiki. The best free education in glasses PCB constraints available.</p>
+        <p><strong>Display was never solved cleanly.</strong> FAQ essentially says "read up on what display hardware is required."</p>
+      </div>
+      <div class="action-box">
+        <strong>Action:</strong> Read it, don't build it. The people behind it are now reachable through Mentra. The mechanical and electrical files are valuable reference material.
+      </div>
+    </div>
+
+    <div class="section-title">Components</div>
+
+    <!-- Displays -->
+    <div class="project-card" id="displays">
+      <h3>Displays & Optics</h3>
+      <div class="project-body">
+        <ul>
+          <li><strong>MICROOLED ActiveLook (Grenoble)</strong> — Complete near-eye HUD subsystem. Documented, open, free BLE interface. Apache-2.0 SDKs. Reference design with Quanta + STM. Shipping in ENGO, Julbo, Cosmo. <em>If you want a monocular HUD you can drive without permission, this is it.</em></li>
+          <li><strong>JBD (Jade Bird Display, Shanghai)</strong> — MicroLED dev kits: Hummingbird Mini I (mono) and Hummingbird I (poly). AmµLED projector: 0.35 cc / 0.6 g / 30° FOV. Roadrunner I/II for colour. Joint ref designs with Dispelix. Pricing [UNKNOWN].</li>
+          <li><strong>Vuzix waveguides</strong> — Sold OEM standalone. US-made, defence-qualified (Collins Aerospace).</li>
+          <li><strong>Avegant</strong> — LCoS light engines (in Ultralite Pro).</li>
+          <li><strong>Lumus + Schott</strong> — Geometric reflective waveguide (in Meta Ray-Ban Display).</li>
+          <li><strong>Sony micro-OLED</strong> — 0.44", 1920×1080 (in INMO Air3).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Compute -->
+    <div class="project-card" id="compute">
+      <h3>Compute</h3>
+      <div class="project-body">
+        <ul>
+          <li><strong>Rockchip RV1106/RV1106B</strong> — Tiny Linux camera SoC. Mature dev-board ecosystem (Luckfox Pico). Cheap, buyable, well documented. The reason OSAIG exists.</li>
+          <li><strong>GAP9 (Greenwaves)</strong> — RISC-V ML MCU on open PULP platform. Core of ETH OpenGlass. Ultra-low power edge ML.</li>
+          <li><strong>Alif Balletto</strong> — MCU+NPU. Used in Brilliant Halo.</li>
+          <li><strong>Qualcomm AR1 Gen 1 / AR1+</strong> — Industry-standard premium smart glasses SoC. Rokid, Samsung, Vuzix Ultralite Pro.</li>
+          <li><strong>XIAO ESP32S3 Sense / omiGlass</strong> — $25 tier. Camera + mic on 3D-printed clip. BasedHardware, MIT. <strong>13,387★</strong> (omi). Different project from ETH OpenGlass.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SDKs -->
+    <div class="project-card" id="sdks">
+      <h3>Cross-Platform SDKs & Reverse Engineering</h3>
+      <div class="project-body">
+        <ul>
+          <li><strong>MentraOS</strong> — Apache-2.0, real, shipping, cross-vendor.</li>
+          <li><strong>xg.glass SDK (HKUST SPARK)</strong> — One API across Rokid, Meta, Brilliant, RayNeo, Even, INMO, Omi + simulator. Honest about what works.</li>
+          <li><strong>Extentos</strong> — Commercial phone-companion SDK. Public docs are the best-sourced openness comparison anywhere.</li>
+          <li><strong>Even Realities G1/G2</strong> — BLE protocol docs, pip package, Gadgetbridge support, firmware decompilation.</li>
+          <li><strong>Rokid</strong> — <code>buildwithfenna/rokid-docs</code> (48★): YodaOS internals from firmware dumps.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">Priority Conversations</div>
+    <div id="priorities">
+      <ol class="priority-list">
+        <li><strong>Mentra — Cayden Pierce / Alexander Israelov (San Francisco)</strong><br>The only org spanning the whole stack: Apache-2.0 OS, two shipped devices, an ODM relationship, and a stated business of licensing the core engine to manufacturers. Ask whether a camera+display device on their platform is possible, what the ODM relationship allows, and whether the K900 platform can be specified with a display.</li>
+        <li><strong>Vuzix OEM / Engineering Services (Rochester, NY)</strong><br>US-based, sells waveguides, sells reference designs, manufactures through Quanta, and already ships the one product that does glasses-as-pure-USB-C-I/O. Ask about Ultralite OEM Platform pricing, MOQ and NRE; whether the M400C USB-C viewer architecture can be licensed or re-bodied; whether the waveguide + light engine can be bought separately at low volume.</li>
+        <li><strong>Thundercomm (sales@thundercomm.com, Ali Mesri NA)</strong><br>The Snapdragon START turnkey path. Highest ceiling, most conventional, most expensive. Ask what the AR1+ AI glasses reference solution actually includes, and the real numbers on NRE, MOQ and timeline.</li>
+        <li><strong>ETH Zürich PBL — Julian Moosmann (system architecture) and Michele Magno (group lead)</strong><br>These are the people who can talk at the firmware → chip → PCB → camera → display → USB → sensor level. They publish board files, they've built glasses more than once, and a university lab is a far cheaper first technical conversation than a consultancy. Ask about licence terms on the OpenGlass hardware designs, whether the FPC-interposer main board could carry a display, and whether they take industry collaborations.</li>
+        <li><strong>OSAIG maintainer (iam5tilllearning@foxmail.com) — and SmartXY (vanda@topaiglasses.com)</strong><br>Two different bets on the Shenzhen supply chain. OSAIG is the cheapest way to have real hardware in hand with root access inside a month. SmartXY is a working ODM with its own factory (Dongguan, 5,000 m², 8 lines, 400k units/yr, OEM 1–3 months / ODM 6–9 months) whose K900 platform may be the hardware under Mentra Live.</li>
+      </ol>
+    </div>
+
+    <div class="section-title">Dead Ends</div>
+    <div class="project-card" id="deadends">
+      <div class="project-body">
+        <ul>
+          <li><strong>North / Focals</strong> — Acquired by Google 2020, Focals 2.0 cancelled, IP absorbed. North had also bought Intel's Vaunt patent portfolio. No licensing path.</li>
+          <li><strong>Google Glass Enterprise 2</strong> — Sales stopped March 2023, support ended Sept 2023. Project Iris shelved 2023.</li>
+          <li><strong>ODG (Osterhout Design Group)</strong> — Collapsed; patents dispersed. Unverified whether remaining IP matters.</li>
+          <li><strong>Snap Spectacles dev program</strong> — Withdrawn without notice. Hardware is a $2,195 pre-order.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="height: 60px;"></div>
+  </main>
+</div>
+
+<script>
+function scrollToId(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const nav = document.querySelector('.nav-item[onclick="scrollToId(\'' + id + '\')"]');
+    if (nav) nav.classList.add('active');
+  }
+}
+
+// Highlight nav on scroll
+const main = document.getElementById('main-scroll');
+const sections = ['overview','market-structure','osaig','vuzix','mentra','brilliant','rokid','qualcomm','inmo','enterprise','meta','eth','ossg','displays','compute','sdks','priorities','deadends'];
+main.addEventListener('scroll', () => {
+  let current = '';
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= main.scrollTop + 100) current = id;
+  }
+  if (current) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const nav = document.querySelector('.nav-item[onclick="scrollToId(\'' + current + '\')"]');
+    if (nav) nav.classList.add('active');
+  }
+});
+</script>
+</body>
+</html>
