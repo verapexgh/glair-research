@@ -40,3 +40,17 @@
 
 ## Summary
 If you need absolute cutting-edge consumer hardware and are willing to trade control for it, these are the options. For programmatic control and independence, look elsewhere.
+
+---
+
+## Privacy Backlash Update (Aug–Sep 2026)
+Meta's Ray-Ban glasses have triggered an **escalating international privacy crisis**:
+- UK cinemas, pubs, restaurants, theatres banning them
+- Norway considering **first national ban**
+- Germany nonprofit filed **criminal complaint**
+- "Pervert glasses" backlash — 185-point HN thread, Guardian, Seattle Times
+- EU circling with potential regulation
+
+**Implication for Meta specifically:** Their camera-always-on design without clear indication is becoming a market-access liability. The EU Cyber Resilience Act adds firmware compliance obligations starting September 2026.
+
+See full analysis: `25-meta-privacy-backlash.md`

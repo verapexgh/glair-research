@@ -14,6 +14,9 @@
 ### Pass 2 Finding
 > **The display is not the hard part any more. It's a part number.** Pre-aligned optical modules are buyable in sample quantities today. This reopens the on-glasses architecture as a genuine option.
 
+## Pass 3 Finding
+> **The privacy backlash against camera-equipped smart glasses is escalating into legislation.** Norway may ban them. UK cinemas, pubs, and theatres already have. Germany filed a criminal complaint. The EU Cyber Resilience Act applies to firmware products starting September 2026. A camera-free or camera-indicated design is becoming a market-access requirement, not a nice-to-have.
+
 ### The Three Architectures (Industry Consensus)
 1. **Tethered USB-C I/O** — fastest path to full control, standards-based, needs a cable
 2. **On-glasses SoC+MCU** — what the industry converges on. SoC for bursts, MCU for always-on. Solves battery.
@@ -36,13 +39,14 @@
 3. [Display & Optics Shopping List](#displays)
 4. [Assignment 1 — Ranked Shortlist](#ranked)
 5. [Foundations & Open Hardware](#foundations)
-6. [New Project Finds](#new-finds)
+6. [New Project Finds — Pass 2](#new-finds)
 7. [The ODM Layer](#odm-layer)
 8. [Korea & Japan](#korea-japan)
-9. [Priority Conversations](#priorities)
-10. [Open Questions](#open-questions)
-11. [Remaining Gaps (Pass 3 Targets)](#pass3)
-12. [Bottom Line](#bottom-line)
+9. [New Finds — Pass 3 (Web Research)](#pass3-finds)
+10. [Priority Conversations](#priorities)
+11. [Open Questions](#open-questions)
+12. [Remaining Gaps](#gaps)
+13. [Bottom Line](#bottom-line)
 
 ---
 
@@ -195,6 +199,45 @@
 
 ---
 
+## New Finds — Pass 3 (Web Research) {#pass3-finds}
+
+### HumanHUD (humanhud.ai)
+- **Personal data HUD web app** for smart glasses — health, wealth, steps, portfolio
+- Live on **Meta Ray-Ban Display** and browser; iOS/Android/Snap/Android XR coming
+- Pricing: Free (Glance) / $20/mo (Focus, Plaid sync) / $100/mo (Augment)
+- **Proof of demand** for HUD-style personal data on smart glasses
+- Cross-platform approach navigates the fragmented ecosystem
+
+### RayNeo Innovator Program & iO
+- **RayNeo iO** — "AI Smart Glasses with Invisible Display," **no camera** — coming soon
+- **RayNeo Air 4 Pro** — $299, "World's First HDR10 Display in AR Glasses," shipping now
+- Developer portal: **open.rayneo.com** · Innovator Program active · Discord available
+- Most active Chinese brand in tethered display glasses; expanding into camera-free AI glasses
+- Privacy-forward iO design deliberately sidesteps Meta backlash
+
+### Meta Smart Glasses — Privacy Backlash
+- **September 2026:** Norway considering becoming **first country to ban smart glasses entirely**
+- **August 2026:** UK cinemas, pubs, restaurants, theatres banning Meta glasses; Germany files **criminal complaint**
+- "Pervert glasses" backlash — 185-point HN thread (276 comments), The Guardian, Seattle Times, 404 Media
+- **Meta's own scandal:** Private Ray-Ban footage sent to workers in Kenya for AI training
+- **Implication:** Camera-free or camera-indicated design becoming market-access requirement in EU
+
+### EU Cyber Resilience Act (CRA)
+- **Reporting duties:** September 2026 (active now) · **Full compliance:** December 2027
+- Treats **software/firmware = hardware** for cybersecurity compliance in EU
+- **10-year rule:** Every security update must stay available for 10 years after issue
+- **No size threshold:** One-person company = same obligations as corporation
+- **Apache-2.0 does NOT exempt** if software supports a commercial product
+- **Tethered architecture advantage:** Glasses-as-I/O (no on-glasses firmware) shifts compliance to host device
+
+### DuckDuckGo "Anti-Surveillance" Glasses
+- Real sunglasses, no camera/AI/electronics, **$35** (vs. Meta's $299)
+- Partnership with Knockaround
+- Satirical marketing responding to genuine consumer anxiety
+- **Market signal:** Privacy concern is mainstream; camera-free positioning is viable differentiator
+
+---
+
 ## Priority Conversations {#priorities}
 
 1. **Mentra — Cayden Pierce / Alexander Israelov**
@@ -209,12 +252,23 @@
 4. **ETH Zürich PBL — Julian Moosmann / Michele Magno**
    - Ask: license terms, FPC interposer + display, industry collaborations
 
-5. **Shenzhen Supply Chain Bets**
-   - **OSAIG maintainer** — iam5tilllearning@foxmail.com (cheapest root-access hardware)
-   - **SmartXY** — vanda@topaiglasses.com (possible K900 manufacturer)
-   - **Raontech** — sales.raon@RAON.io (pre-aligned LCoS module, part number, MOQ)
-   - **Lingxi** — Aladdin Zero reference (optics-side dev solution)
-   - **Antawei** — Yan Pengfei (small-order-hungry ODM with vertical integration)
+5. **Shenzhen Supply Chain — SmartXY (vanda@topaiglasses.com)**
+   - Working ODM with its own factory. K900 platform may be under Mentra Live.
+
+6. **Shenzhen Supply Chain — Antawei (鄢鹏飞 / Yan Pengfei)**
+   - Mid-size ODM with vertical integration. Shipping ¥399–¥599. Planning 13MP ~¥999.
+
+7. **Raontech — sales.raon@RAON.io**
+   - Pre-aligned LCoS optical module. New P13: sub-1cm³ engine. Ask: part number, price, prototype MOQ.
+
+8. **Lingxi AR / 灵犀微光**
+   - Aladdin Zero reference. Ask: what included, who qualifies.
+
+9. **HumanHUD / revanthmatha**
+   - Building embedded AI on smart glasses (humanhud.ai). May be a useful industry contact.
+
+10. **RayNeo Innovator Program**
+    - open.rayneo.com — investigate SDK depth, iO specs, Air 4 Pro as dev target.
 
 ---
 
@@ -239,9 +293,17 @@
 14. BOM percentages — confirm against second source
 15. FCC OET database — grantee name for Mentra Live
 
+### From Pass 3 (New)
+16. HumanHUD — is there on-device AI processing (Taalas API) or cloud-only?
+17. RayNeo iO — specs, price, release date, developer access depth
+18. RayNeo Innovator Program — what SDK/API does it expose?
+19. Norway smart glasses ban — status, scope, timeline
+20. EU CRA — does CRA apply to OSAIG kits shipped to EU? To Mentra Live?
+21. UK/EU venue bans — do they affect all camera glasses or just Meta?
+
 ---
 
-## Remaining Gaps (Pass 3 Targets) {#pass3}
+## Remaining Gaps {#gaps}
 
 - **1688.com / Taobao direct** — actual supplier layer under Alibaba English storefront
 - **Patent / IP landscape** — who owns waveguide, LCoS, geometric-combiner patents
