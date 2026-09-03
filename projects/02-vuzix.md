@@ -9,6 +9,41 @@
 ## Overview
 Vuzix is a US company with a real OEM business and in-house waveguide manufacturing. They offer the strongest OEM story of any Western vendor in the smart glasses space.
 
+## ⚠️ Financial Distress (Pass 4 — SEC EDGAR Filings)
+
+**This changes how you talk to them.**
+
+| Quarter | Revenue | YoY Change | Net Loss | Cash | Operating Burn |
+|---------|---------|-----------|----------|------|---------------|
+| **Q1 2026** | $1.39M | -12% | **$7.07M** | $20.17M | — |
+| **Q2 2026** | $1.1M | -14% | **$7.7M** | $17.3M | **$6.6M** |
+
+- **Gross margin is negative** — Q1 2026 gross loss $0.38M
+- **10-Q carries going-concern language.** Management: "substantial doubt of our ability to continue as a going concern has been alleviated" — based on cash on hand, cost actions, program curtailments, and historical ability to raise capital
+- **Quanta's $20M investment is staged**, in closings tied to milestones on Series B Preferred Stock. Analysts flag progress on closings as critical to future funding
+- **~$6.6M quarterly operating burn against $17.3M cash = roughly 2–3 quarters runway** absent further raises
+- **Repeated ATM issuance and ongoing dilution**
+- Accumulated deficit: **$406.97M**
+- No debt, working capital $20.78M
+
+### What This Does and Doesn't Mean
+
+- **Does NOT mean don't talk to them.** Their **engineering services line grew 36–47% year on year** while product sales fell 21–28%. Selling engineering to companies like yours is their **growth business.** You will get an enthusiastic, capable response
+- **Does mean structure the relationship so a Vuzix funding failure doesn't strand your product.** Don't take a sole-source waveguide with no second source. Don't pay large NRE up front against milestones 12 months out. **Ask directly about the Quanta closings**
+- **Defence work with Collins Aerospace** has moved into initial production; management expects more H2 2026 orders, describes 2027 as potentially strong. There is a real business there — just not the smart-glasses product line
+- CEO Paul Travers confirmed an unnamed **tier-1 global automotive OEM** customer
+
+### ⚠️ Conflicting Figures
+One secondary source reports TTM revenue to Q1 2026 of $23.3M with quarterly revenue of $5.3–6.3M. This **cannot be reconciled** with SEC-sourced $1.39M and $1.1M quarters. **Trust EDGAR; treat the aggregator number as wrong until verified.**
+
+### Updated Recommendation
+**Priority conversation #2, with terms.** Talk to them early — engineering services is their growth line and they'll engage. Just don't build a single point of failure on a company burning $6.6M a quarter against $17.3M. Ask about:
+1. Ultralite OEM Platform pricing, MOQ, NRE
+2. M400C licensing/re-bodying
+3. Waveguide + light engine at low volume
+4. **Quanta milestone closings and timeline**
+5. Second-source strategy if Vuzix faces restructuring
+
 ## Three Distinct Products
 
 ### M400

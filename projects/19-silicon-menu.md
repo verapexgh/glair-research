@@ -108,3 +108,29 @@ That third architecture is the answer to the v1 battery problem (30–60 min und
 ## Verification Needed
 - AR1 ≈ $60 / W517 ≈ $10 — single Chinese trade source, repeated across reprints. Needs second independent source before driving decisions.
 - Direct vendor docs: Rockchip RV1106B datasheet, Unisoc W517 platform docs, BES2800 datasheet
+
+---
+
+## Real Component Prices (Pass 4 — LCSC / Rutronik24)
+
+| Part | Distributor | Price | Stock | Notes |
+|------|-------------|-------|-------|-------|
+| **Rockchip RV1106G2** | LCSC (C5272606) | **$9.48–$11.35** | 751 | Cortex-A7, 0.5 TOPS |
+| **Rockchip RV1106G3** | LCSC (C5328706) | **$5.33–$21.59** (tiered) | 1,388 | Cortex-A7 @1.2 GHz, **1.0 TOPS NPU**, ISP3.2 8MP@15fps, **256 MB DDR3L integrated** |
+| **Rockchip RV1106G3** | **Rutronik24** (EU) | Listed | — | Western distributor, no Chinese channel needed |
+
+**Key finding:** Unlike Unisoc and Bestechnic — where no open Western distribution was found — **RV1106 is available through a Western distributor** (Rutronik24). No NDA, no Taobao forwarder required.
+
+**Variant choice matters:** RV1106G3 is specified at **Cortex-A7 @1.2 GHz, 1.0 TOPS NPU, ISP3.2 up to 8MP@15fps, integrated 256 MB DDR3L** — against the 0.5 TOPS figure in earlier reports. Same family, materially different part. **Confirm which variant OSAIG actually uses** before pricing.
+
+### Western Distribution Summary (Pass 4)
+- **Rockchip (RV1106):** ✅ Available through LCSC and Rutronik24
+- **Unisoc (W517):** ❌ No open Western distribution found. Every route runs through a solution house.
+- **Bestechnic (BES2800/2900):** ❌ No open Western distribution found.
+
+**Implication:** If a low-cost SoC is the plan but Western procurement is a requirement, Rockchip is the only confirmed path. Unisoc and Bestechnic would require an ODM/solution-house relationship.
+
+### Export Control
+- Rockchip prohibits shipping RV1106 core boards or technical support to: Russia, Belarus, Cuba, Iran, North Korea, Syria, Crimea, Donetsk/Luhansk
+- Irrelevant for Louisiana; relevant if selling internationally
+- Export-control regime attached to this silicon must be honoured downstream

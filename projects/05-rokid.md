@@ -50,6 +50,12 @@ Unusually ungated — **no account needed**:
 - Cloud OpenAPI is enterprise-gated through sales
 - No public store for native binaries yet
 
+## Rokid Nexus Plugin Ecosystem (Pass 4 Finding)
+- **Rokid has a plugin ecosystem branded "Nexus"** with third-party plugins shipping
+- Example: **RSS/Atom reader for the HUD**, fully operable with the **R08 ring** input device
+- The dashboard covered Rokid's four SDK paths but not Nexus or the ring as an input device
+- Expands the developer surface: not just native/web/cloud, but also **plugin architecture** for extending HUD functionality
+
 ## Community Reverse-Engineering
 - `buildwithfenna/rokid-docs` — YodaOS internals and CXR SDK suite from firmware decompilation
   - **Live GitHub Stats (2026-09-03):** 48 stars, 7 forks, 0 open issues, primary language Smali

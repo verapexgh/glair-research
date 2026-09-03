@@ -21,6 +21,9 @@ Not a product. A **cheap, buyable ESP32-S3 HUD dev platform** — the fastest po
 - Testing display readability and positioning
 - Building proof-of-concept before committing to custom hardware
 
+## Hidden Gem: Bosch BHI260AP ML Coprocessor (Pass 4 Finding)
+The dashboard had this right but under-used it: the **Bosch BHI260AP 6-axis IMU carries an ML coprocessor**, so **head-gesture recognition runs on the IMU itself** rather than the main MCU. That's the same architectural trick as the SoC+MCU split (see `19-silicon-menu.md`), at hobby scale. You can do gesture-based input without waking the ESP32-S3.
+
 ## Limitations
 - Tiny display (126×126 visible)
 - ESP32-S3 class compute (no Linux, no camera ISP)
