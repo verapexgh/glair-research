@@ -24,18 +24,21 @@
 ### Mentra Live
 - **$299**
 - MediaTek **MTK8766**
-- 12 MP camera / 119° FOV
-- 1080p video
-- 3 mics
-- 2 speakers
+- 12 MP camera / 119° FOV · 1080p video
+- 3 mics · 2 speakers · stereo audio
 - Wi-Fi + BT 5.0
-- 2,200 mAh case
-- 43 g
-- **12 h battery**
-- Custom Android build
+- On-glass battery: **260 mAh**
+- Charging case: **2,200 mAh**
+- Total runtime: **12 h**
+- Weight: **43 g**
+- Custom Android build (MentraOS)
 - **ADB over Wi-Fi only — no USB ADB**
 - Streams RTMP to any platform
-- **No display**
+- **No near-eye display** (camera-only device)
+- **Prescription lens ready**
+- 2 buttons (left temple, right temple) + swipe bar (forward/back/up/down/tap/double-tap)
+- Compatible with iOS 15.1+ and Android 12+
+- **Infinity Cable:** charge while wearing via USB-C (battery pack, phone, any USB-C source)
 
 ### Mentra Mach1
 - **$349 dev kit**
@@ -57,13 +60,31 @@ Mentra has a camera device (Live) and a display device (Mach1). It does not have
   - **Strong circumstantial match; unconfirmed**
   - Worth verifying: if it's the same platform, that's the ODM behind the openest camera glasses on the market
 
-## Commercial
+## Commercial & Positioning
+- Tagline: **"Deploy Smart Glasses for Real-World Work"**
+- Enterprise focus: field teams, technicians, delivery drivers, HVAC, automotive, logistics
+- **Mentra Miniapp Store** — "The Only Smart Glasses with an app store" — distribution layer for smart glasses apps
 - Mentra explicitly sells the **"Mentra Core Engine"** to manufacturers as a turnkey OS they can put in their own app under their own brand
+- Positioned as the interface that lets AI access the real world: captures what experts know, puts it in the ear of workers, confirms steps, writes records automatically
+- MentraOS supports multiple hardware platforms: Mentra Live, Even Realities, Vuzix
 
 ## OSSG / Open Source Smart Glasses Connection
 - Mentra evolved from the **Team Open Smart Glasses** project (github.com/Mentra-Community/OpenSourceSmartGlasses)
 - Same people, now commercial
 - **Cayden Pierce** worked with **Steve Mann** (founder of wearable computing) at U. Toronto, then MIT
+
+## Press Coverage
+- "Mentra is targeting openness, modularity, and utility."
+- "Finally gives smartglasses the software layer smartphones have had for over a decade."
+- "Apps are able to open up additional functionality using voice commands and the camera..."
+- "Open source means inherently more permissive than other glasses in the space."
+- "What separates Mentra Live is its app store — developers have been busy building apps."
+
+## Live Website Data (Fetched 2026-09-03)
+- Website positions Mentra Live as enterprise-first, not consumer
+- Heavy emphasis on "real-world work" — technicians, inspectors, delivery people
+- MentraOS described as "the only smart glasses OS with a full SDK, app store, and support for multiple hardware platforms"
+- Infinity Cable is a key differentiator for long deployments (charge-while-wearing)
 
 ## Contact
 - mentraglass.com
